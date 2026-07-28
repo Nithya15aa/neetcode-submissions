@@ -1,0 +1,46 @@
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        if not t or not s:
+            return ""
+        
+
+        slwin, countT = {}, {}
+        
+        l = 0
+        res, resLen = [-1,-1], float("inf")
+
+        for i in t:
+            countT[i] = 1 + countT.get(i,0)
+        
+        have, need = 0,len(countT)
+        
+        for r in range(len(s)):
+            slwin[s[r]] = 1 + slwin.get(s[r],0)
+
+            if s[r] in countT and slwin[s[r]] == countT[s[r]]:
+                have +=1 
+
+                while have == need:
+
+                    if (r - l + 1) < resLen:
+                        res = [l,r+1]
+                        resLen = r - l + 1 
+
+                    slwin[s[l]] -= 1
+                    if s[l] in countT and slwin[s[l]] < countT[s[l]]:
+                        have -=1
+                    l += 1
+
+        
+        l, r = res
+        return s[l:r] if resLen != float("inf") else ""
+
+
+
+
+
+        
+         
+
+
+        
